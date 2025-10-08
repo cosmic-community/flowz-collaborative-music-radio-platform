@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import type { Station } from '@/types'
-import { Play, Pause, SkipForward, Heart, Share2, Users, ArrowLeft } from 'lucide-react'
+import { Play, Pause, SkipForward, SkipBack, Heart, MoreVertical, ArrowLeft } from 'lucide-react'
 import Link from 'next/link'
 
 interface StationPlayerProps {
@@ -15,36 +15,36 @@ export default function StationPlayer({ station }: StationPlayerProps) {
   
   const coverImage = station.metadata?.cover_image;
   const currentTrack = station.metadata?.current_track;
-  const listenerCount = station.metadata?.listener_count || 0;
   const themeColor = station.metadata?.theme_color || '#FF4D8B';
   
   return (
-    <div className="relative min-h-screen">
-      {/* Background with blur effect */}
+    <div className="relative min-h-screen bg-dark">
+      {/* Background gradient */}
       <div 
         className="absolute inset-0 bg-gradient-to-b from-dark via-dark to-dark"
         style={{
-          background: `linear-gradient(180deg, ${themeColor}20 0%, #1A1A2E 50%)`
+          background: `linear-gradient(180deg, ${themeColor}40 0%, #0F0F1E 40%)`
         }}
       ></div>
       
       <div className="relative z-10">
         {/* Header */}
-        <div className="px-4 py-6 flex items-center justify-between">
-          <Link href="/stations">
-            <button className="p-2 glass-effect rounded-full">
+        <div className="px-4 pt-12 pb-6 flex items-center justify-between">
+          <Link href="/">
+            <button className="p-2 hover:bg-white/10 rounded-full transition-colors">
               <ArrowLeft className="w-6 h-6" />
             </button>
           </Link>
           
-          <div className="flex items-center gap-2 glass-effect px-4 py-2 rounded-full">
-            <Users className="w-4 h-4 text-primary" />
-            <span className="font-semibold">{listenerCount}</span>
-          </div>
+          <h2 className="text-sm font-medium">Playing from Station</h2>
+          
+          <button className="p-2 hover:bg-white/10 rounded-full transition-colors">
+            <MoreVertical className="w-6 h-6" />
+          </button>
         </div>
         
         {/* Album Art */}
-        <div className="px-8 py-8">
+        <div className="px-6 py-8">
           <div className="max-w-md mx-auto">
             <div className="aspect-square rounded-3xl overflow-hidden shadow-2xl">
               {coverImage ? (
@@ -68,79 +68,61 @@ export default function StationPlayer({ station }: StationPlayerProps) {
         </div>
         
         {/* Track Info */}
-        <div className="px-8 py-6 text-center">
-          <h1 className="text-3xl font-bold mb-2">
-            {currentTrack?.title || 'No track playing'}
-          </h1>
-          <p className="text-xl text-gray-400 mb-1">
-            {currentTrack?.metadata?.artist || station.title}
-          </p>
-          {currentTrack?.metadata?.album && (
-            <p className="text-sm text-gray-500">
-              {currentTrack.metadata.album}
-            </p>
-          )}
+        <div className="px-6 py-4">
+          <div className="flex items-start justify-between mb-1">
+            <div className="flex-1">
+              <h1 className="text-2xl font-bold mb-1">
+                {currentTrack?.title || station.title}
+              </h1>
+              <p className="text-base text-gray-400">
+                {currentTrack?.metadata?.artist || 'Unknown Artist'}
+              </p>
+            </div>
+            <button 
+              onClick={() => setIsLiked(!isLiked)}
+              className="p-2 mt-1"
+            >
+              <Heart 
+                className={`w-6 h-6 ${isLiked ? 'fill-primary text-primary' : 'text-gray-400'}`} 
+              />
+            </button>
+          </div>
+        </div>
+        
+        {/* Progress Bar */}
+        <div className="px-6 py-4">
+          <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+            <div className="h-full w-1/3 bg-white rounded-full"></div>
+          </div>
+          <div className="flex justify-between text-xs text-gray-400 mt-2">
+            <span>1:24</span>
+            <span>3:45</span>
+          </div>
         </div>
         
         {/* Controls */}
-        <div className="px-8 py-6">
+        <div className="px-6 py-6">
           <div className="max-w-md mx-auto">
-            <div className="flex items-center justify-center gap-8 mb-8">
-              <button 
-                onClick={() => setIsLiked(!isLiked)}
-                className="p-3 hover:bg-white/10 rounded-full transition-colors"
-              >
-                <Heart 
-                  className={`w-6 h-6 ${isLiked ? 'fill-primary text-primary' : ''}`} 
-                />
+            <div className="flex items-center justify-between">
+              <button className="p-2 hover:bg-white/10 rounded-full transition-colors">
+                <SkipBack className="w-7 h-7" />
               </button>
               
               <button 
                 onClick={() => setIsPlaying(!isPlaying)}
-                className="p-6 bg-gradient-primary rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all"
+                className="p-5 bg-white rounded-full shadow-lg hover:scale-105 transition-all"
               >
                 {isPlaying ? (
-                  <Pause className="w-8 h-8" />
+                  <Pause className="w-8 h-8 text-black" fill="black" />
                 ) : (
-                  <Play className="w-8 h-8 ml-1" />
+                  <Play className="w-8 h-8 text-black ml-1" fill="black" />
                 )}
               </button>
               
-              <button className="p-3 hover:bg-white/10 rounded-full transition-colors">
-                <SkipForward className="w-6 h-6" />
+              <button className="p-2 hover:bg-white/10 rounded-full transition-colors">
+                <SkipForward className="w-7 h-7" />
               </button>
             </div>
-            
-            <div className="flex items-center justify-center gap-4">
-              <button className="button-secondary flex-1">
-                <Share2 className="w-4 h-4 inline mr-2" />
-                Share
-              </button>
-            </div>
-          </div>
-        </div>
-        
-        {/* Station Info */}
-        <div className="px-8 py-6">
-          <div className="max-w-md mx-auto glass-effect rounded-2xl p-6">
-            <h3 className="text-lg font-semibold mb-2">{station.title}</h3>
-            {station.metadata?.description && (
-              <p className="text-gray-400 text-sm">
-                {station.metadata.description}
-              </p>
-            )}
-            {station.metadata?.tags && station.metadata.tags.length > 0 && (
-              <div className="flex gap-2 mt-4">
-                {station.metadata.tags.map((tag, index) => (
-                  <span 
-                    key={index}
-                    className="text-xs px-3 py-1 rounded-full glass-effect"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            )}
           </div>
         </div>
       </div>

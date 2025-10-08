@@ -12,12 +12,12 @@ module.exports = {
           dark: '#E6447D',
         },
         secondary: {
-          DEFAULT: '#6C5CE7',
-          dark: '#5F4FD4',
+          DEFAULT: '#A855F7',
+          dark: '#9333EA',
         },
         dark: {
-          DEFAULT: '#1A1A2E',
-          lighter: '#232340',
+          DEFAULT: '#0F0F1E',
+          lighter: '#1A1A2E',
           card: '#16213E',
         },
         accent: {
@@ -29,8 +29,8 @@ module.exports = {
         sans: ['Inter', 'ui-sans-serif', 'system-ui', '-apple-system', 'sans-serif'],
       },
       backgroundImage: {
-        'gradient-primary': 'linear-gradient(135deg, #FF4D8B 0%, #6C5CE7 100%)',
-        'gradient-dark': 'linear-gradient(180deg, rgba(26,26,46,0.95) 0%, rgba(26,26,46,1) 100%)',
+        'gradient-primary': 'linear-gradient(135deg, #FF4D8B 0%, #A855F7 100%)',
+        'gradient-dark': 'linear-gradient(180deg, rgba(15,15,30,0.95) 0%, rgba(15,15,30,1) 100%)',
       },
     },
   },
