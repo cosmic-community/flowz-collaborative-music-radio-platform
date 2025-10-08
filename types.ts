@@ -26,6 +26,9 @@ export interface Station extends CosmicObject {
     is_active?: boolean;
     tags?: string[];
     created_date?: string;
+    genre?: string;
+    schedule?: string;
+    is_live?: boolean;
   };
 }
 

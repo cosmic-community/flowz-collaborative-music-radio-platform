@@ -83,7 +83,6 @@ export async function getUserProfile(userId: string): Promise<User | null> {
 }
 
 // Get featured/trending stations
-// Get featured/trending stations
 export async function getFeaturedStations(limit: number = 6): Promise<Station[]> {
   try {
     const response = await cosmic.objects
@@ -115,6 +114,38 @@ export async function getFeaturedStations(limit: number = 6): Promise<Station[]>
     }
     // Log the error but return empty array instead of throwing
     console.error('Error fetching featured stations:', error);
+    return [];
+  }
+}
+
+// Get stations by genre
+export async function getStationsByGenre(genre: string): Promise<Station[]> {
+  try {
+    const response = await cosmic.objects
+      .find({ 
+        type: 'stations',
+        'metadata.genre': genre,
+        'metadata.is_active': true 
+      })
+      .props(['id', 'title', 'slug', 'metadata'])
+      .depth(1);
+    
+    const stations = response.objects as Station[];
+    
+    if (!stations || stations.length === 0) {
+      return [];
+    }
+    
+    return stations.sort((a, b) => {
+      const countA = a.metadata?.listener_count || 0;
+      const countB = b.metadata?.listener_count || 0;
+      return countB - countA;
+    });
+  } catch (error) {
+    if (hasStatus(error) && error.status === 404) {
+      return [];
+    }
+    console.error('Error fetching stations by genre:', error);
     return [];
   }
 }

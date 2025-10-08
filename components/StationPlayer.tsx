@@ -12,10 +12,12 @@ interface StationPlayerProps {
 export default function StationPlayer({ station }: StationPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false)
   const [isLiked, setIsLiked] = useState(false)
+  const [progress, setProgress] = useState(33) // Progress percentage
   
   const coverImage = station.metadata?.cover_image;
   const currentTrack = station.metadata?.current_track;
   const themeColor = station.metadata?.theme_color || '#FF4D8B';
+  const listenerCount = station.metadata?.listener_count || 0;
   
   return (
     <div className="relative min-h-screen bg-dark">
@@ -36,7 +38,10 @@ export default function StationPlayer({ station }: StationPlayerProps) {
             </button>
           </Link>
           
-          <h2 className="text-sm font-medium">Playing from Station</h2>
+          <div className="text-center">
+            <p className="text-xs text-gray-400 mb-1">{station.metadata?.genre || 'Radio'}</p>
+            <h2 className="text-sm font-medium">{station.title}</h2>
+          </div>
           
           <button className="p-2 hover:bg-white/10 rounded-full transition-colors">
             <MoreVertical className="w-6 h-6" />
@@ -77,6 +82,9 @@ export default function StationPlayer({ station }: StationPlayerProps) {
               <p className="text-base text-gray-400">
                 {currentTrack?.metadata?.artist || 'Unknown Artist'}
               </p>
+              <p className="text-sm text-gray-500 mt-1">
+                {listenerCount} listeners
+              </p>
             </div>
             <button 
               onClick={() => setIsLiked(!isLiked)}
@@ -91,8 +99,11 @@ export default function StationPlayer({ station }: StationPlayerProps) {
         
         {/* Progress Bar */}
         <div className="px-6 py-4">
-          <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden">
-            <div className="h-full w-1/3 bg-white rounded-full"></div>
+          <div className="w-full h-1 bg-white/10 rounded-full overflow-hidden cursor-pointer">
+            <div 
+              className="h-full bg-white rounded-full transition-all duration-300"
+              style={{ width: `${progress}%` }}
+            ></div>
           </div>
           <div className="flex justify-between text-xs text-gray-400 mt-2">
             <span>1:24</span>

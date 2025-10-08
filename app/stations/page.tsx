@@ -1,6 +1,6 @@
 import { getStations } from '@/lib/cosmic'
 import type { Station } from '@/types'
-import StationGrid from '@/components/StationGrid'
+import PopularStationsList from '@/components/PopularStationsList'
 import BottomNav from '@/components/BottomNav'
 import { Search } from 'lucide-react'
 
@@ -27,16 +27,28 @@ export default async function StationsPage() {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
           <input
             type="text"
-            placeholder="Artists, songs, or podcasts"
-            className="w-full bg-white/5 border border-white/10 rounded-full pl-12 pr-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
+            placeholder="Search here ..."
+            className="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary"
           />
         </div>
       </header>
       
-      {/* Stations Grid */}
+      {/* Tabs */}
+      <div className="px-4 mb-6">
+        <div className="flex gap-4 border-b border-white/10">
+          <button className="pb-3 px-1 text-sm font-medium text-primary border-b-2 border-primary">
+            Radio Genre
+          </button>
+          <button className="pb-3 px-1 text-sm font-medium text-gray-400 hover:text-white transition-colors">
+            Popular radios
+          </button>
+        </div>
+      </div>
+      
+      {/* Popular Stations List */}
       <section className="px-4">
         {stations.length > 0 ? (
-          <StationGrid stations={stations} />
+          <PopularStationsList stations={stations} />
         ) : (
           <div className="text-center py-12">
             <p className="text-gray-400 text-lg">No stations available yet</p>
