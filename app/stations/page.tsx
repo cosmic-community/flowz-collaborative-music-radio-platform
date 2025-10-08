@@ -2,6 +2,7 @@ import { getStations } from '@/lib/cosmic'
 import type { Station } from '@/types'
 import Header from '@/components/Header'
 import StationGrid from '@/components/StationGrid'
+import BottomNav from '@/components/BottomNav'
 
 // Force dynamic rendering to prevent build-time errors
 export const dynamic = 'force-dynamic'
