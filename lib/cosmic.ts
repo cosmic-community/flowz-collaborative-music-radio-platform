@@ -83,6 +83,7 @@ export async function getUserProfile(userId: string): Promise<User | null> {
 }
 
 // Get featured/trending stations
+// Get featured/trending stations
 export async function getFeaturedStations(limit: number = 6): Promise<Station[]> {
   try {
     const response = await cosmic.objects
@@ -94,6 +95,11 @@ export async function getFeaturedStations(limit: number = 6): Promise<Station[]>
       .depth(1);
     
     const stations = response.objects as Station[];
+    
+    // If no stations found, return empty array
+    if (!stations || stations.length === 0) {
+      return [];
+    }
     
     // Manual sorting by listener count and return limited results
     return stations
@@ -107,7 +113,9 @@ export async function getFeaturedStations(limit: number = 6): Promise<Station[]>
     if (hasStatus(error) && error.status === 404) {
       return [];
     }
-    throw new Error('Failed to fetch featured stations');
+    // Log the error but return empty array instead of throwing
+    console.error('Error fetching featured stations:', error);
+    return [];
   }
 }
 

@@ -3,8 +3,18 @@ import Hero from '@/components/Hero'
 import StationGrid from '@/components/StationGrid'
 import BottomNav from '@/components/BottomNav'
 
+// Force dynamic rendering to prevent build-time errors
+export const dynamic = 'force-dynamic'
+
 export default async function HomePage() {
-  const featuredStations = await getFeaturedStations(6)
+  let featuredStations = []
+  
+  try {
+    featuredStations = await getFeaturedStations(6)
+  } catch (error) {
+    console.error('Error fetching featured stations:', error)
+    // Continue with empty array - component will show "No stations available"
+  }
   
   return (
     <div className="min-h-screen bg-dark pb-20">

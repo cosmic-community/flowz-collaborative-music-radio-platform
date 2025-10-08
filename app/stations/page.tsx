@@ -3,8 +3,18 @@ import Header from '@/components/Header'
 import StationGrid from '@/components/StationGrid'
 import BottomNav from '@/components/BottomNav'
 
+// Force dynamic rendering to prevent build-time errors
+export const dynamic = 'force-dynamic'
+
 export default async function StationsPage() {
-  const stations = await getStations()
+  let stations = []
+  
+  try {
+    stations = await getStations()
+  } catch (error) {
+    console.error('Error fetching stations:', error)
+    // Continue with empty array - component will show fallback UI
+  }
   
   return (
     <div className="min-h-screen bg-dark pb-20">
