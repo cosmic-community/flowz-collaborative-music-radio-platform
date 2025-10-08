@@ -1,6 +1,6 @@
 import { getFeaturedStations } from '@/lib/cosmic'
+import type { Station } from '@/types'
 import Hero from '@/components/Hero'
-import StationGrid from '@/components/StationGrid'
 import BottomNav from '@/components/BottomNav'
 
 // Force dynamic rendering to prevent build-time errors
