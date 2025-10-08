@@ -7,7 +7,7 @@ import BottomNav from '@/components/BottomNav'
 export const dynamic = 'force-dynamic'
 
 export default async function StationsPage() {
-  let stations = []
+  let stations: Station[] = []
   
   try {
     stations = await getStations()
